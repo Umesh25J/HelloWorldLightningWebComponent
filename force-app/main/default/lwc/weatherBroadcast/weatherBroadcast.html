@@ -1,0 +1,49 @@
+<template>
+<div class="c-container">
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item padding="around-small" size="12">
+            <div class="page-section page-header">
+                
+                    <div class="slds-page-header__row">
+                      <div class="slds-page-header__col-title">
+                        <div class="slds-media">
+                          <div class="slds-media__figure">
+                            
+                                <lightning-icon icon-name="custom:custom60" alternative-text="recipe" title="recipe"></lightning-icon>
+
+                     Weather Report
+                         
+                          </div>
+                        </div>
+                      </div>
+                    
+                </div>
+            </div>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="12">
+                <lightning-layout>
+                    <lightning-layout-item padding="around-small" size="3">
+                        <div class="page-section page-right">
+                            <h2>Search</h2>
+                            <p>
+                                <lightning-input  required label="Country"  placeholder="Enter Country"></lightning-input>
+                                <lightning-input  required  label="Zip/PinCode"  placeholder="Enter Pincode"></lightning-input>
+                                <lightning-button label="Submit" ></lightning-button>
+                            </p>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="6">
+                        <div class="page-section page-main">
+                            <h2>Result</h2>
+                        </div>  
+                    </lightning-layout-item>  
+                </lightning-layout>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                <div class="page-footer page-section">
+                    <h2><a href="https://mausam.imd.gov.in/">Weather info.</a></h2>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>
+</template>

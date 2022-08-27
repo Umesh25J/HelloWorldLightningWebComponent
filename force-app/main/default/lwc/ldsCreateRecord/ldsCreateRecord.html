@@ -1,0 +1,30 @@
+<template>
+    <lightning-quick-action-panel header="My action">
+        <lightning-card title="Create Account Record using LDS">
+            <lightning-layout>
+                <lightning-layout-item size="6">
+                    <!-- Displaying fields to get information. -->
+                    <lightning-input class="slds-p-around_medium" label="Name" name="accountName" 
+                        onchange={nameChangedHandler}></lightning-input>
+                    <lightning-input class="slds-p-around_medium" label="Account Number" name="accountNumber" 
+                        onchange={numberChangedHandler}></lightning-input>
+                    <lightning-input class="slds-p-around_medium" label="Phone" type="phone" name="accountPhone" 
+                        onchange={phoneChangedHandler}></lightning-input>
+                    <lightning-input class="slds-p-around_medium" label="Contact Last Name"  name="contactLastName" 
+                        onchange={nameChangedHandlers}></lightning-input>
+                    <lightning-input class="slds-p-around_medium" label="" name="accountPhone" 
+                        onchange={accountChangedHandlers}></lightning-input>        
+                    <br/>
+                    <lightning-button class="slds-m-left_x-small" label="Create Account" variant="brand" 
+                        onclick={createAccount}></lightning-button>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-card>
+
+        <div slot="footer">
+          <lightning-button variant="neutral" label="Cancel"></lightning-button>
+          <lightning-button variant="brand" label="Save" class="slds-m-left_x-small"></lightning-button>
+        </div>
+      </lightning-quick-action-panel>
+   
+</template>

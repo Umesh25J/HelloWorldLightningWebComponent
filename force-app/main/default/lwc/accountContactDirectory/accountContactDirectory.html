@@ -1,0 +1,131 @@
+<template>
+    <lightning-card  title="">
+    <div>
+        <div class="slds-align_absolute-center">
+            <h1 style="color:#3ab0f3;font-size:30px">Account Contact Directory</h1>
+        </div>
+    <div class="slds-align-right">
+        <lightning-button label="New Account" title="Non-primary action" class="slds-m-left_x-small"></lightning-button>
+        
+    </div>
+    <div class="slds-align-right">
+        <c-lds-create-record></c-lds-create-record>
+    </div>
+    
+    <div>
+    <lightning-accordion allow-multiple-sections-open> 
+                <template for:each={visibleAccounts} for:item="account">
+                    <lightning-accordion-section name="A" label={account.Name} key={account.Id}>
+                        <div class="slds-truncate" >
+                            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                                <thead>
+                                    <tr class="slds-text-title">
+                                        <th scope="col" class="">
+                                            <div class="slds-truncate" title="Contact First Name">Contact First Name</div>
+                                        </th>
+                                        <th scope="col" class="">
+                                            <div class="slds-truncate" title="Contact Last Name">Contact Last Name</div>
+                                        </th>
+                                        <th scope="col" class="">
+                                            <div class="slds-truncate" title="Account Name">Account Name</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Action" >Action</div>
+                                        </th>
+                                    </tr>
+                                </thead> 
+                                <tbody>
+                                    <template for:each={account.Contacts} for:item="contact" for:index="ind">
+                                        <tr key={contact.Id}>
+                                            <td scope="row" data-label=" Name" class="">
+                                                <div class="slds-truncate" >{contact.FirstName}</div> 
+                                            </td>
+                                            <td data-label="ID">
+                                                <div class="slds-truncate" >{contact.LastName}</div>
+                                            </td>
+                                            <td data-label="Phone">
+                                                <div class="slds-truncate" >{account.Name}</div>
+                                            </td>
+                                            <td>
+                                                <div class="slds-truncate" >
+                                                    <lightning-button label="Edit" name={contact.Id} variant="neutral" value={ind} onclick={editRecord}>  
+                                                    </lightning-button>
+                                                    <lightning-button label="Delete" name={contact.Id} variant="neutral" value={ind} onclick={deleteRecord}></lightning-button>
+                                                </div>
+                                            </td> 
+                                        </tr> 
+                                        <template if:true={editClick}>
+                                            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-03" aria-modal="true" aria-describedby="modal-content-id-3" class="slds-modal slds-fade-in-open" key={contact.Id}>
+                                                <div class="slds-modal__container">
+                                                <!-- modal header start -->
+                                                    <header class="slds-modal__header">
+                                                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={hideModalBox}>
+                                                            <lightning-icon icon-name="utility:close"
+                                                                alternative-text="close"
+                                                                variant="inverse"
+                                                                size="small" ></lightning-icon>
+                                                            <span class="slds-assistive-text">Close</span>
+                                                        </button>
+                                                        <h2 class="slds-text-heading_medium slds-hyphenate">Edit Contact</h2>
+                                                    </header>
+                                                    <!-- modal body start -->
+                                                    <div class="slds-modal__content slds-p-around_medium">
+                                                        <lightning-record-edit-form
+                                                        object-api-name="Contact"
+                                                        layout-type="full"
+                                                        record-id={selectedContact}>
+                                                        <lightning-output-field field-name="AccountId">
+                                                        </lightning-output-field>
+                                                        <lightning-input-field field-name="FirstName"></lightning-input-field>
+                                                        <lightning-input-field field-name="LastName"></lightning-input-field>
+                                                        <lightning-input-field field-name="Email"></lightning-input-field>
+                                                        <lightning-input-field field-name="AccountId"></lightning-input-field>
+                                                        <lightning-input-field field-name="Phone"></lightning-input-field>
+                                                        <div class="slds-var-m-top_medium slds-align_absolute-center">
+                                                            <lightning-button variant="brand" type="submit" label="Update">
+                                                            </lightning-button>
+                                                        </div>
+                                                    </lightning-record-edit-form>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </template>     
+                                    </template> 
+                                    
+                                    <template if:true={areDetails}>
+                                        <template for:each={blankRow} for:item="con" for:index="ind">
+                                            <tr class="slds-hint-parent" key={con.Id}>
+                                                <td data-label="Contact First Name">
+                                                <lightning-input type="text" value={con.FirstName} placeholder="Contact First Name" name={ind} variant="label-hidden" onchange={setFirstName}></lightning-input>
+                                                </td>
+                                                <td data-label="Contact Last Name">
+                                                    <lightning-input type="text" value={con.LastName} placeholder="Contact Last Name" name={ind} onchange={setLastName} variant="label-hidden"></lightning-input>
+                                                </td>
+                                                <td data-label="Account Name">
+                                                    <lightning-input type="text" value={account.Name} placeholder={account.Name}   variant="label-hidden" read-only></lightning-input>
+                                                </td>
+                                                <td data-label="Action">
+                                                    <lightning-button label="Remove" variant="neutral" value={ind} onclick={removeRow}></lightning-button>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </template>    
+                                </tbody>
+                            </table>
+                            <br/>
+                            <div slot="footer" class="slds-float_right">
+                                    <lightning-button name="multipleRowSave" label="Save Conacts" class="slds-p-around_xx-small" variant="brand-outline" onclick={saveData}></lightning-button>
+                                    <lightning-button name={account.Id} label="Add Row" class="slds-p-around_xx-small" variant="brand-outline" onclick={addRow}></lightning-button>
+                                    <lightning-button name="multipleRowRemoval" class="slds-p-around_xx-small" label="Remove Row" variant="brand-outline" onclick={removeRow}></lightning-button>
+                            </div>
+                        </div>
+                    </lightning-accordion-section>
+                </template>
+    </lightning-accordion>
+</div>
+    <div slot="footer" class="slds-var-m-vertical_medium">
+        <c-pagination records={totalAccounts} record-size="6" onupdate={updateAccountHandler}></c-pagination>
+    </div>
+</div>
+</lightning-card>
+</template>
